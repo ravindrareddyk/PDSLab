@@ -1,6 +1,6 @@
 // Valid student credentials
 const validUsers = {
-  "STU101": "1234",
+  "STU101": "12940",
   "STU102": "5678",
   "STU103": "9999"
 };
@@ -65,3 +65,4 @@ window.onload = function() {
     document.getElementById("question").innerText = "Your Question:\n\n" + storedQuestion;
   }
 };
+
