@@ -1,25 +1,519 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDS Lab Exam</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PDS Lab External Exam</title>
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-1: #e6f0ff;
+      --bg-2: #f3fbff;
+      --accent: #2563eb;
+      --muted: #6b7280;
+      --card-bg: rgba(255,255,255,0.86);
+      --shadow: 0 10px 30px rgba(18,25,40,0.08);
+      --radius: 14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      color:#111827;
+    }
+
+    .card{
+      width:100%;
+      max-width:880px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), var(--card-bg));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border: 1px solid rgba(14, 48, 88, 0.04);
+    }
+
+    .card-header{
+      padding:22px 28px;
+      border-bottom: 1px solid rgba(14,48,88,0.04);
+      display:flex;
+      gap:18px;
+      align-items:center;
+    }
+    .logo{
+      width:64px; height:64px;
+      border-radius:12px;
+      background: linear-gradient(180deg, #123d94 0%, #2b6ce6 100%);
+      color:#fff; display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:20px; box-shadow: 0 8px 24px rgba(43,108,230,0.12);
+    }
+    .title h1{ margin:0; font-size:20px; font-weight:700 }
+    .title p{ margin:4px 0 0; color:var(--muted); font-size:13px }
+
+    .card-body{
+      padding:26px 28px;
+      display:flex;
+      gap:20px;
+      align-items:flex-start;
+    }
+
+    .left-panel{ flex:1; min-width:260px }
+    .right-panel{ width:380px; min-width:260px }
+
+    .field{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px }
+    .label-text{ font-size:13px; color:var(--muted); font-weight:600 }
+    input[type="text"], input[type="password"], textarea {
+      padding:12px 14px; border-radius:10px;
+      border:1px solid rgba(16,24,40,0.06);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,250,0.96));
+      font-size:15px; outline:none;
+    }
+    input:focus, textarea:focus{ box-shadow: 0 8px 24px rgba(37,99,235,0.08); border-color:#3b82f6 }
+
+    .actions{ display:flex; gap:12px; margin-top:6px }
+    .btn{ padding:10px 16px; border-radius:10px; font-weight:700; cursor:pointer; border:none }
+    .btn.primary{ background: linear-gradient(180deg,#2563eb,#1e40af); color:#fff }
+    .btn.ghost{ background:transparent; color:#374151; border:1px solid rgba(55,65,81,0.06) }
+
+    .hint{ color:var(--muted); font-size:13px; margin-top:10px }
+
+    .card-footer{ padding:14px 20px; border-top:1px solid rgba(14,48,88,0.04); background:linear-gradient(180deg,#fff,#fbfdff); font-size:13px; color:var(--muted) }
+
+    /* Modal */
+    .modal{ display:none; position:fixed; inset:0; z-index:2000; background:rgba(6,11,30,0.52); backdrop-filter: blur(4px); align-items:center; justify-content:center; padding:20px }
+    .modal-panel{ width:100%; max-width:720px; background: linear-gradient(180deg,#ffffff,#fbfdff); border-radius:12px; padding:22px; box-shadow:0 16px 50px rgba(15,23,42,0.28); position:relative; border:1px solid rgba(17,24,39,0.06) }
+    .modal-close{ position:absolute; right:14px; top:12px; background:transparent; border:none; font-size:26px; color:rgba(44,54,66,0.6); cursor:pointer }
+    .modal-header h2{ margin:0; font-size:20px; color:#0f172a }
+    .modal-sub{ margin:6px 0 0 0; color:var(--muted); font-size:13px }
+    .modal-body{ padding:18px 4px; margin-top:10px }
+    .question-text{ font-size:18px; line-height:1.6; color:#111827; background: linear-gradient(180deg, rgba(243,248,255,0.6), rgba(250,250,250,0.6)); padding:18px; border-radius:10px; border:1px solid rgba(16,24,40,0.03); white-space:pre-line }
+
+    .modal-actions{ display:flex; justify-content:flex-end; gap:12px; margin-top:14px }
+
+    /* Exam area */
+    .exam-area{ display:none; padding:18px 4px; margin-top:8px; border-radius:10px; background:linear-gradient(180deg,#fff,#f8fafc); border:1px solid rgba(16,24,40,0.04) }
+    .timer{ font-weight:700; color:#0f172a; font-size:16px }
+    .question-number-badge{ display:inline-block; background:#eef2ff; color:#1e40af; font-weight:700; padding:6px 10px; border-radius:999px; margin-left:8px; font-size:13px }
+
+    .answer-area textarea{ width:100%; min-height:180px; resize:vertical; margin-top:10px }
+
+    .submitted { padding:12px; border-radius:10px; background:#ecfdf5; color:#065f46; border:1px solid rgba(6,95,70,0.08); margin-top:12px }
+
+    /* small screens */
+    @media (max-width:840px){
+      .card-body{ flex-direction:column; gap:18px }
+      .right-panel{ width:100% }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>PDS Lab External Exam</h2>
-    <div id="loginBox">
-      <input type="text" id="studentId" placeholder="Enter Student ID">
-      <input type="password" id="pinCode" placeholder="Enter  Code">
-      <button onclick="verifyUser()">Get Question</button>
+
+  <div class="card" role="main" aria-labelledby="pageTitle">
+    <div class="card-header">
+      <div class="logo" aria-hidden> PDS </div>
+      <div class="title">
+        <h1 id="pageTitle">PDS Lab External Exam</h1>
+        <!-- <p>Secure online question delivery · Do not refresh after starting the exam</p> -->
+      </div>
     </div>
-    <div id="question"></div>
+
+    <div class="card-body">
+      <div class="left-panel">
+        <div id="loginBox" aria-live="polite">
+          <div class="field">
+            <label class="label-text">Student ID</label>
+            <input id="studentId" type="text" placeholder="e.g. S230000" maxlength="12" />
+          </div>
+
+          <div class="field">
+            <label class="label-text">4-digit PIN</label>
+            <input id="pinCode" type="password" placeholder="e.g. 1234" maxlength="4" inputmode="numeric" />
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="getQuestionBtn" onclick="verifyUser()">Get Question</button>
+            <button class="btn ghost" id="logoutBtn" onclick="clearSession()">Logout</button>
+          </div>
+
+          <p class="hint">Once a question is chosen for the session it will be locked until you logout. Back navigation is disabled during the session.</p>
+        </div>
+
+        <div id="sessionInfo" style="display:none; margin-top:14px">
+          <div><strong>Logged in as:</strong> <span id="loggedStudent"></span></div>
+          <div style="margin-top:8px"><strong>Current question:</strong> <span id="currentQuestionShort"></span> <span class="question-number-badge" id="qBadge"></span></div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <!-- area for question text if not using modal, plus exam area -->
+        <div id="questionPlaceholder" style="display:block">
+          <p style="font-weight:700; color:#0f172a; margin-bottom:6px">Welcome</p>
+          <p style="color:var(--muted)">Click <strong>Get Question</strong> to retrieve your assigned question. A modal will appear with the question and a "Start Exam" button. After you click Start Exam, the timer begins and you can type your answer below.</p>
+        </div>
+
+        <div class="exam-area" id="examArea" aria-live="polite">
+          <div style="display:flex; justify-content:space-between; align-items:center">
+            <div><strong>Question</strong> <span id="examQuestionBadge" class="question-number-badge" style="display:none"></span></div>
+            <div class="timer">Time left: <span id="timerDisplay">--:--</span></div>
+          </div>
+
+          <div id="examQuestionText" style="margin-top:12px; font-size:16px; line-height:1.6"></div>
+
+          <!-- <div class="answer-area">
+            <label class="label-text" style="margin-top:12px">Your Answer</label>
+            <textarea id="answerText" placeholder="Type your answer here..."></textarea>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end">
+            <button class="btn ghost" onclick="showQuestionModalAgain()">View Question</button>
+            <button class="btn primary" onclick="submitAnswer()">Submit Answer</button>
+          </div> -->
+
+          <div id="submitResult" style="display:none" class="submitted" role="status"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer">Good luck — answer honestly and carefully.</div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- Modal -->
+  <div id="questionModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <div class="modal-panel" role="document">
+      <button class="modal-close" aria-label="Close" onclick="closeModal()">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalTitle">Your Question</h2>
+        <p class="modal-sub">Read carefully and click <strong>Start Exam</strong> when ready.</p>
+      </div>
+
+      <div class="modal-body">
+        <div id="questionText" class="question-text" aria-live="polite"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" onclick="closeModal()">Close</button>
+        <button class="btn primary" id="startExamBtn" onclick="startExam()">Start Exam</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /***********************
+     * Data & assignments
+     ***********************/
+    const validUsers = {
+      "O230949": "4998",
+      "S230215": "3512",
+      "S230223": "9929",
+      "S230334": "8761",
+      "S230335": "3040",
+      "S230364": "7318",
+      "S230505": "1034",
+      "S230542": "2472",
+      "S230647": "4449",
+      "S230678": "5446",
+      "S230705": "9492",
+      "S230723": "9096",
+      "S230774": "3973",
+      "S230833": "3581",
+      "S230873": "4811",
+      "S230904": "9935",
+      "S230987": "7379",
+      "S230989": "4653",
+      "S231144": "2102",
+      "S231157": "1319",
+      "S231173": "8210",
+      "S231195": "8381"
+    };
+
+    const questions = [
+      "1. Write a C program to find the grade of a student based on marks using an if-else if ladder.",
+      "2. Write a C program to reverse a given number.",
+      "3. Write a C program to display the multiplication table of a given number using a for loop.",
+      "4. Write a C program to check whether a number is positive, negative, or zero using an if-else ladder.",
+      "5. Write a C program to sort an array in ascending order.",
+      "6. Write a C program to check whether a number is even or odd using an if statement.",
+      "7. Write a C program to find the largest and smallest elements in an array.",
+      "8. Write a C program to count the number of vowels and consonants in a string.",
+      "9. Write a C program to calculate the sum and average of N numbers using an array.",
+      "10. Write a C program to swap two numbers without using a third variable.",
+      "11. Write a C program to display the day of the week based on user input (1 for Monday, 2 for Tuesday, etc.) using a switch statement.",
+      "12. Write a C program to add two matrices.",
+      "13. Write a C program to create a simple calculator using a switch statement.",
+      "14. Write a C program to find the factorial of a number using recursion.",
+      "15. Write a C program to find the sum of digits of a number using recursion.",
+      "16. Write a C program to display numbers from 1 to 10 using a for loop."
+    ];
+
+    // assignment: if value is array -> pick one of those each login
+    const questionAssignments = {
+      "S230542": [5, 15],    // choose one of these for each login
+      "S231195": [16,4]
+    };
+
+    /***********************
+     * Helpers
+     ***********************/
+    function questionFromNumber(n) {
+      if (!Number.isInteger(n)) return null;
+      // Accept 1-based or 0-based
+      if (n >= 1 && n <= questions.length) return questions[n - 1];
+      if (n >= 0 && n < questions.length) return questions[n];
+      return null;
+    }
+
+    function getQuestionForUser(id) {
+      if (questionAssignments.hasOwnProperty(id)) {
+        const assigned = questionAssignments[id];
+        if (Array.isArray(assigned) && assigned.length > 0) {
+          const choice = assigned[Math.floor(Math.random() * assigned.length)];
+          const q = questionFromNumber(choice);
+          if (q) return { q, indexChoice: choice };
+          // fallback scan
+          for (let i=0;i<assigned.length;i++){
+            const alt = questionFromNumber(assigned[i]);
+            if (alt) return { q: alt, indexChoice: assigned[i] };
+          }
+        }
+        if (Number.isInteger(assigned)) {
+          const q = questionFromNumber(assigned);
+          if (q) return { q, indexChoice: assigned };
+        }
+      }
+      // default random
+      const r = Math.floor(Math.random() * questions.length);
+      return { q: questions[r], indexChoice: r };
+    }
+
+    function disableBack() {
+      history.pushState(null, "", location.href);
+      window.onpopstate = function () {
+        history.pushState(null, "", location.href);
+        alert("Back navigation is disabled during the exam.");
+      };
+    }
+
+    /***********************
+     * Session + UI logic
+     ***********************/
+    const modal = document.getElementById('questionModal');
+    const questionTextEl = document.getElementById('questionText');
+
+    function showModal(text) {
+      questionTextEl.innerText = text;
+      modal.style.display = 'flex';
+      document.documentElement.style.overflow = 'hidden';
+      modal.focus();
+    }
+    function closeModal() {
+      modal.style.display = 'none';
+      document.documentElement.style.overflow = '';
+    }
+    function showQuestionModalAgain() {
+      const storedQ = sessionStorage.getItem('question');
+      if (storedQ) showModal(storedQ);
+    }
+
+    // exam timer config (in seconds)
+    const EXAM_DURATION = 180 * 60; // default: 30 minutes
+    let timerInterval = null;
+
+    function startTimer(remainingSeconds) {
+      const display = document.getElementById('timerDisplay');
+      if (timerInterval) clearInterval(timerInterval);
+
+      let seconds = remainingSeconds;
+      updateTimerDisplay(seconds, display);
+
+      timerInterval = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(timerInterval);
+          updateTimerDisplay(0, display);
+          onTimeUp();
+        } else {
+          updateTimerDisplay(seconds, display);
+        }
+        // persist remaining time to sessionStorage every tick
+        sessionStorage.setItem('remainingSeconds', String(seconds));
+      }, 1000);
+    }
+
+    function updateTimerDisplay(seconds, el) {
+      const mm = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const ss = (seconds % 60).toString().padStart(2, '0');
+      el.innerText = mm + ':' + ss;
+    }
+
+    function onTimeUp() {
+      // Auto-submit when time up (if needed) or lock UI
+      document.getElementById('submitResult').style.display = 'block';
+      document.getElementById('submitResult').innerText = 'Time is up — the answer area is locked. Please notify the invigilator.';
+      document.getElementById('answerText').disabled = true;
+      document.querySelector('#examArea .btn.primary')?.setAttribute('disabled', 'disabled');
+    }
+
+    function clearSession() {
+      sessionStorage.removeItem('studentId');
+      sessionStorage.removeItem('question');
+      sessionStorage.removeItem('chosenIndex');
+      sessionStorage.removeItem('remainingSeconds');
+      sessionStorage.removeItem('answerText');
+      location.reload();
+    }
+
+    function verifyUser() {
+      const id = document.getElementById('studentId').value.trim();
+      const pin = document.getElementById('pinCode').value.trim();
+
+      if (!id || !pin) {
+        alert('Please enter Student ID and 4-digit PIN.');
+        return;
+      }
+
+      if (validUsers[id] && validUsers[id] === pin) {
+        // If already in sessionStorage, restore that question instead of choosing new one
+        const storedId = sessionStorage.getItem('studentId');
+        const storedQuestion = sessionStorage.getItem('question');
+
+        if (storedId && storedQuestion && storedId === id) {
+          // restore UI
+          document.getElementById('loggedStudent').innerText = id;
+          document.getElementById('currentQuestionShort').innerText = storedQuestion.split('\n')[0] || storedQuestion;
+          document.getElementById('qBadge').innerText = 'Q';
+          document.getElementById('sessionInfo').style.display = 'block';
+          showModal(storedQuestion);
+          disableBack();
+          return;
+        }
+
+        // choose a question (if assignment is an array we pick ONE)
+        const { q, indexChoice } = getQuestionForUser(id);
+
+        // store single plain string
+        sessionStorage.setItem('studentId', id);
+        sessionStorage.setItem('question', q);
+        sessionStorage.setItem('chosenIndex', String(indexChoice));
+        // reset any previous remaining time and answer
+        sessionStorage.removeItem('remainingSeconds');
+        sessionStorage.removeItem('answerText');
+
+        document.getElementById('loggedStudent').innerText = id;
+        document.getElementById('currentQuestionShort').innerText = q.split('\n')[0] || q;
+        document.getElementById('qBadge').innerText = 'Q' + (String(indexChoice));
+        document.getElementById('sessionInfo').style.display = 'block';
+
+        showModal(q);
+        disableBack();
+      } else {
+        alert('Invalid ID or PIN. Please try again.');
+      }
+    }
+
+    function startExam() {
+      // Close modal and reveal exam area
+      closeModal();
+
+      document.getElementById('examArea').style.display = 'block';
+      const storedQ = sessionStorage.getItem('question');
+      const chosenIndex = sessionStorage.getItem('chosenIndex');
+      document.getElementById('examQuestionText').innerText = storedQ || '(no question found)';
+      if (chosenIndex) {
+        document.getElementById('examQuestionBadge').style.display = 'inline-block';
+        document.getElementById('examQuestionBadge').innerText = 'Q' + chosenIndex;
+      }
+
+      // determine remaining seconds (resume if present)
+      let remaining = parseInt(sessionStorage.getItem('remainingSeconds') || '0', 10);
+      if (!remaining || remaining <= 0) {
+        remaining = EXAM_DURATION;
+        sessionStorage.setItem('remainingSeconds', String(remaining));
+      }
+      startTimer(remaining);
+
+      // restore previous answer if exists
+      const prevAnswer = sessionStorage.getItem('answerText');
+      if (prevAnswer) document.getElementById('answerText').value = prevAnswer;
+
+      // auto-save answer every 5 seconds
+      setInterval(() => {
+        const val = document.getElementById('answerText').value;
+        sessionStorage.setItem('answerText', val);
+      }, 5000);
+    }
+
+    function submitAnswer() {
+      // simple client-side submit: save answer to sessionStorage and show result
+      const ans = document.getElementById('answerText').value.trim();
+      sessionStorage.setItem('answerText', ans);
+      // mark as submitted
+      document.getElementById('submitResult').style.display = 'block';
+      document.getElementById('submitResult').innerText = 'Answer submitted successfully. You may logout now.';
+      // lock area to avoid re-submits
+      document.getElementById('answerText').disabled = true;
+      clearInterval(timerInterval);
+      sessionStorage.removeItem('remainingSeconds');
+      // Optionally keep studentId/question to show submission but prevent re-taking
+    }
+
+    // On load: restore session if present
+    window.onload = function() {
+      // restore if already logged in
+      const storedId = sessionStorage.getItem('studentId');
+      const storedQuestion = sessionStorage.getItem('question');
+      if (storedId && storedQuestion) {
+        document.getElementById('loggedStudent').innerText = storedId;
+        document.getElementById('currentQuestionShort').innerText = storedQuestion.split('\n')[0] || storedQuestion;
+        document.getElementById('qBadge').innerText = 'Q';
+        document.getElementById('sessionInfo').style.display = 'block';
+
+        // if remainingSeconds exists -> user likely started exam, restore exam UI
+        const rem = parseInt(sessionStorage.getItem('remainingSeconds') || '0', 10);
+        if (rem > 0) {
+          // show exam area and resume timer
+          document.getElementById('examArea').style.display = 'block';
+          document.getElementById('examQuestionText').innerText = storedQuestion;
+          const chosenIndex = sessionStorage.getItem('chosenIndex');
+          if (chosenIndex) {
+            document.getElementById('examQuestionBadge').style.display = 'inline-block';
+            document.getElementById('examQuestionBadge').innerText = 'Q' + chosenIndex;
+          }
+          const prevAnswer = sessionStorage.getItem('answerText');
+          if (prevAnswer) document.getElementById('answerText').value = prevAnswer;
+          startTimer(rem);
+        }
+        disableBack();
+      }
+
+      // accessibility and modal click outside handler
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape') closeModal();
+      });
+      document.getElementById('questionModal').addEventListener('click', function(e){
+        if (e.target === this) closeModal();
+      });
+    };
+
+    // Prevent accidental navigation away (optional)
+    window.addEventListener('beforeunload', function (e) {
+      // show a confirmation if exam started
+      const rem = parseInt(sessionStorage.getItem('remainingSeconds') || '0', 10);
+      if (rem > 0) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+  </script>
+
 </body>
 </html>
-
-
-

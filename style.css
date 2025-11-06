@@ -1,47 +1,140 @@
+/* style.css – simple elegant design */
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f5f7fa;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
 }
 
 .container {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  width: 350px;
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 30%;
   text-align: center;
+  animation: fadeIn 0.6s ease;
 }
 
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+h2 {
+  margin-bottom: 25px;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
-button {
-  background: #007bff;
-  color: white;
+#loginBox {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#loginBox input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+#loginBox input:focus {
+  border-color: #5b9df9;
+  box-shadow: 0 0 4px rgba(91, 157, 249, 0.4);
+  outline: none;
+}
+
+#loginBox button {
+  background-color: #5b9df9;
+  color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-button:hover {
-  background: #0056b3;
+#loginBox button:hover {
+  background-color: #4a8ae8;
+  transform: translateY(-1px);
 }
 
 #question {
   margin-top: 20px;
-  background: #f0f0f0;
-  padding: 10px;
-  border-radius: 5px;
-  white-space: pre-wrap;
+  font-size: 16px;
+  color: #480c79;
+  font-weight: 500;
+  min-height: 30px;
+  width: 100%;
+}
+
+/* Smooth entry animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Modal background */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  padding-top: 120px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Modal box */
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
   text-align: left;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Close button */
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close-btn:hover {
+  color: #000;
+}
+
+/* Title & question */
+.modal-content h2 {
+  margin-top: 0;
+  color: #007bff;
+  font-size: 22px;
+}
+.modal-content p {
+  font-size: 18px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.9);}
+  to {opacity: 1; transform: scale(1);}
 }
