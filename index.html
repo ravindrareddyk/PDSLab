@@ -210,47 +210,52 @@
     /***********************
      * Data & assignments
      ***********************/
+
+  //   const validUsers = {
+  //     "O230679": "1383",
+  //     "O230788": "3575",
+  //     "O230932": "6830",
+  //     "O230935": "6097",
+  //     "O230946": "5755",
+  //     "S220902": "5626",
+  //     "S230037": "3086",
+  //     "S230041": "5770",
+  //     "S230071": "4704",
+  //     "S230295": "5748",
+  //     "S230382": "2621",
+  //     "S230389": "6695",
+  //     "S230396": "2545",
+  //     "S230410": "2852",
+  //     "S230436": "6351",
+  //     "S230499": "5291",
+  //     "S230503": "6393",
+  //     "S230513": "1229",
+  //     "S230517": "1463",
+  //     "S230578": "4142",
+  //     "S230580": "4686",
+  //     "S230615": "2797",
+  //     "S230659": "4104",
+  //     "S230712": "1446",
+  //     "S230713": "2526",
+  //     "S230741": "4725",
+  //     "S230756": "3519",
+  //     "S230759": "6554",
+  //     "S230800": "4106",
+  //     "S230801": "6052",
+  //     "S230806": "1590",
+  //     "S230913": "6751",
+  //     "S230927": "1186",
+  //     "S230988": "3445",
+  //     "S231011": "3458",
+  //     "S231018": "5593",
+  //     "S231093": "1704",
+  //     "S231118": "4248",
+  //     "S231137": "3491",
+  //     "S231162": "3755"
+  // };
+
+   
     
-    const validUsers = {
-      "O230037": "5902",
-      "O230128": "5971",
-      "O230321": "6121",
-      "O230540": "5136",
-      "O230795": "7915",
-      "S230008": "5385",
-      "S230042": "7269",
-      "S230043": "5945",
-      "S230098": "5903",
-      "S230124": "5168",
-      "S230192": "6338",
-      "S230200": "7195",
-      "S230207": "6214",
-      "S230306": "5211",
-      "S230325": "5942",
-      "S230357": "6729",
-      "S230387": "5225",
-      "S230392": "5520",
-      "S230398": "7701",
-      "S230511": "5146",
-      "S230524": "5854",
-      "S230543": "7165",
-      "S230552": "7818",
-      "S230715": "5699",
-      "S230776": "5738",
-      "S230804": "7209",
-      "S230836": "5254",
-      "S230843": "7699",
-      "S230849": "5217",
-      "S230864": "7518",
-      "S230872": "7249",
-      "S230920": "5130",
-      "S230954": "7074",
-      "S230980": "7733",
-      "S231008": "6399",
-      "S231125": "5482",
-      "S231143": "7619",
-      "S231192": "7792"
-};
        
     // const questions = [
     //   "1. Write a C program to find the grade of a student based on marks using an if-else if ladder.",
@@ -271,39 +276,69 @@
     //   "16. Write a C program to display numbers from 1 to 10 using a for loop."
     // ];
 
-    const questions = [
-        "1. Write a C program to add two numbers using a function.",
-        "2. Write a C program to find the square of a number using a function.",
-        "3. Write a C program to check whether a number is even or odd using a function.",
-        "4. Write a C program to find the sum of digits of a number using a function.",
-        "5. Write a C program to calculate the area of a circle using a function.",
-        "6. Write a C program to declare and print the address and value of a variable using a pointer.",
-        "7. Write a C program to swap two numbers using pointers.",
-        "8. Write a C program to find the sum of two numbers using pointers.",
-        "9. Write a C program to find the length of a string using a pointer.",
-        "10. Write a C program to copy one string to another using pointers.",
-        "11. Write a C program to store details of books (book ID, title, author, price) using an array of structures and display them.",
-        "12. Write a C program using structures to store and display student details — roll number, name, marks, and grade.",
-        "13. Write a C program to check whether a person is eligible to vote or not.",
-        "14. Write a C program to check whether a student has passed or failed based on marks (use if-else).",
-        "15. Write a C program to find the sum of first N natural numbers using a for loop.",
-        "16. Write a C program to print numbers from 1 to N using while.",
-        "17. Write a C program to read N integers into an array and display them in reverse order.",
-        "18. Write a C program to count how many elements are even and how many are odd in an array.",
-        "19. Write a C program to copy all elements of one array into another array.",
-        "20. Write a C program to read marks of students into an array and find the highest and lowest marks.",
-        "21. Write a C program to count the number of vowels in a string using pointers.",
-        "22. Write a C program to add two matrices.",
-        "23. Write a C program to display the multiplication table of a given number using a for loop."
-];
+//     const questions = [
+//         "1. Write a C program to add two numbers using a function.",
+//         "2. Write a C program to find the square of a number using a function.",
+//         "3. Write a C program to check whether a number is even or odd using a function.",
+//         "4. Write a C program to find the sum of digits of a number using a function.",
+//         "5. Write a C program to calculate the area of a circle using a function.",
+//         "6. Write a C program to declare and print the address and value of a variable using a pointer.",
+//         "7. Write a C program to swap two numbers using pointers.",
+//         "8. Write a C program to find the sum of two numbers using pointers.",
+//         "9. Write a C program to find the length of a string using a pointer.",
+//         "10. Write a C program to copy one string to another using pointers.",
+//         "11. Write a C program to store details of books (book ID, title, author, price) using an array of structures and display them.",
+//         "12. Write a C program using structures to store and display student details — roll number, name, marks, and grade.",
+//         "13. Write a C program to check whether a person is eligible to vote or not.",
+//         "14. Write a C program to check whether a student has passed or failed based on marks (use if-else).",
+//         "15. Write a C program to find the sum of first N natural numbers using a for loop.",
+//         "16. Write a C program to print numbers from 1 to N using while.",
+//         "17. Write a C program to read N integers into an array and display them in reverse order.",
+//         "18. Write a C program to count how many elements are even and how many are odd in an array.",
+//         "19. Write a C program to copy all elements of one array into another array.",
+//         "20. Write a C program to read marks of students into an array and find the highest and lowest marks.",
+//         "21. Write a C program to count the number of vowels in a string using pointers.",
+//         "22. Write a C program to add two matrices.",
+//         "23. Write a C program to display the multiplication table of a given number using a for loop."
+// ];
 
+const questions = [
+  "1. Write a C program to calculate simple interest given principal, rate, and time.",
+  "2. Write a C program to convert temperature from Celsius to Fahrenheit.",
+  "3. Write a C program to find the area and perimeter of a rectangle.",
+  "4. Write a C program to calculate the average of three numbers.",
+  "5. Write a C program to find the largest of three numbers using if-else.",
+  "6. Write a C program to check whether a character is a vowel or consonant.",
+  "7. Write a C program to display the name of a month based on its number (1-12) using switch.",
+  "8. Write a C program to find the sum of all even numbers between 1 and N.",
+  "9. Write a C program to print a pattern of stars (pyramid or triangle).",
+  "10. Write a C program to merge two arrays into a third array.",
+  "11. Write a C program to count the frequency of each element in an array.",
+  "12. Write a C program to concatenate two strings without using strcat().",
+  "13. Write a C program to check whether a string is a palindrome or not.",
+  "14. Write a C program to count the total number of words in a string.",
+  "15. Write a C program to reverse a string using pointers.",
+  "16. Write a C program to concatenate two strings without using strcat().",
+  "17. Write a C program to store details of 3 students using array of structures and find the topper.",
+  "18. Write a C program to demonstrate call by value and call by reference.",
+  "19. Write a C program to dynamically allocate memory for an array using malloc().",
+  "20. Write a C program to count total characters, words, and lines in a string.",
+  "21. Write a C program to find the sum and average of elements of an array using pointers.",
+  "22. Write a C program to find the factorial of a number using recursion.",
+  "23. Write a C program to calculate the power of a number using a function.",
+  "24. Write a C program to find the sum of digits of a number using recursion."
+  "25. Write a C program to add two numbers using a function.",
+  "26. Write a C program to find the square of a number using a function.",
+  "27. Write a C program to check whether a number is even or odd using a function."
+];
 
     
     // assignment: if value is array -> pick one of those each login
     const questionAssignments = {
-      "S230920": [18, 21],    // choose one of these for each login
-      "O230128": [11,17],
-      "S230042": [1,16]
+      "S230615": [24,23,19],    // choose one of these for each login
+      "O230935": [16,18],
+      "S230517": [22,15,],
+      "O230679": [10,11,27]
     };
 
     /***********************
@@ -563,6 +598,7 @@
 
 </body>
 </html>
+
 
 
 
